@@ -9,10 +9,9 @@ import NotFoundPage from './NotFoundPage';
 const CourseIntroPage = ({ userEmail }) => {
   let { courseId } = useParams();
   const course = getCourseById(courseId);
-  if (course === null) {
+  if (!course) {
     return <NotFoundPage />;
   }
-
   return (
     <div>
       <Typography variant="h3">{course.title}</Typography>

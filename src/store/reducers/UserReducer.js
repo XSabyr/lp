@@ -1,4 +1,4 @@
-import { LOGIN, LOGOUT } from '../actionCreators/UserActions';
+import { SETUSERDATA, LOGOUT, LOGINFAILED, RESETLOGINFAIL } from '../actionCreators/UserActions';
 
 const initialState = {
   id: undefined,
@@ -9,7 +9,7 @@ const initialState = {
 
 const UserReducer = (state = initialState, action) => {
   switch (action.type) {
-    case LOGIN:
+    case SETUSERDATA:
       return action.payload;
     case LOGOUT:
       return initialState;

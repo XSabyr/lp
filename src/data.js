@@ -146,7 +146,7 @@ export const GetUserById = (id) => {
   return result.length !== 0 ? result[0] : null;
 };
 
-export const tryToLogIn = (email, password) => {
+export const tryToLogInFunction = (email, password) => {
   const result = users.filter((user) => user.email === email && user.password === password);
   return result.length !== 0 ? result[0] : null;
 };

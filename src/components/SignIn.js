@@ -12,9 +12,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { tryToLogIn } from '../data';
 import { useHistory } from 'react-router-dom';
-import { logIn } from '../store/actionCreators/UserActions';
+import { tryToLogIn } from '../store/actionCreators/UserActions';
 import { connect } from 'react-redux';
 
 function Copyright({ classes }) {
@@ -54,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SignIn({ logIn, userEmail }) {
+function SignIn({ tryToLogIn, loginError }) {
   const classes = useStyles();
 
   let history = useHistory();
@@ -63,7 +62,6 @@ function SignIn({ logIn, userEmail }) {
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
-  const [loginError, setLoginError] = useState(false);
 
   // eslint-disable-next-line
   const re =
@@ -82,14 +80,7 @@ function SignIn({ logIn, userEmail }) {
       return setPasswordError(true);
     }
 
-    // dispatch(tryToLogIn(email, password));
-
-    const user = tryToLogIn(email, password);
-    if (user === null) {
-      return setLoginError(true);
-    }
-
-    logIn(user.id, user.email, user.firstName, user.lastName);
+    tryToLogIn(email, password);
   };
 
   return (
@@ -176,12 +167,13 @@ function SignIn({ logIn, userEmail }) {
 function mapStateToProps(state) {
   return {
     userEmail: state.user.email,
+    loginError: state.error.loginError,
   };
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    logIn: (id, email, firstName, lastName) => dispatch(logIn(id, email, firstName, lastName)),
+    tryToLogIn: (email, password) => dispatch(tryToLogIn(email, password)),
   };
 };
 
