@@ -59,12 +59,12 @@ const drawerUnauthorisedList = [
   {
     index: 2,
     text: 'The most popular courses',
-    to: '/courses',
+    to: '/courses/top',
   },
   {
     index: 3,
     text: 'Editors choice',
-    to: '/courses',
+    to: '/courses/editorschoise',
   },
 ];
 

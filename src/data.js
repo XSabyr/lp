@@ -137,18 +137,15 @@ const started = [
 export const GetAllCourses = () => courses;
 
 export const getCourseById = (id) => {
-  const result = courses.filter((course) => course.id === +id);
-  return result.length !== 0 ? result[0] : null;
+  return courses.find((course) => course.id === +id);
 };
 
 export const GetUserById = (id) => {
-  const result = users.filter((user) => user.id === +id);
-  return result.length !== 0 ? result[0] : null;
+  return users.find((user) => user.id === +id);
 };
 
 export const tryToLogInFunction = (email, password) => {
-  const result = users.filter((user) => user.email === email && user.password === password);
-  return result.length !== 0 ? result[0] : null;
+  return users.find((user) => user.email === email && user.password === password);
 };
 
 // export const tryToLogIn = (dispatch) => (email, password) => {

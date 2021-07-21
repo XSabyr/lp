@@ -1,4 +1,4 @@
-import { SETUSERDATA, LOGOUT, LOGINFAILED, RESETLOGINFAIL } from '../actionCreators/UserActions';
+import { SETUSERDATA, LOGOUT } from '../actionCreators/UserActions';
 
 const initialState = {
   id: undefined,

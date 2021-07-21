@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import React from 'react';
 import {
   GetAllCourses,
@@ -13,29 +13,20 @@ import NotFoundPage from './NotFoundPage';
 import { connect } from 'react-redux';
 
 const CourseList = ({ userId }) => {
-  const query = new URLSearchParams(useLocation().search);
-  let location = useLocation();
+  let { type, search } = useParams();
 
   let courses;
 
-  if (location.pathname === '/courses/started') {
+  if (type === 'started') {
     courses = GetStartedCoursesByUserId(userId);
-    if (courses.length === 0) {
-      return <NotFoundPage text="You didnt start any course" />;
-    }
-  } else if (location.pathname === '/courses/creator') {
+  } else if (type === 'creator') {
     courses = GetCoursesByCreator(userId);
-    if (courses.length === 0) {
-      return <NotFoundPage text="You didnt create any course" />;
-    }
   } else {
-    const search = query.get('search');
+    courses = search ? GetCoursesWithSearch(search) : GetAllCourses();
+  }
 
-    courses = search === null ? GetAllCourses() : GetCoursesWithSearch(search);
-
-    if (courses === null) {
-      return <Typography variant="h5">No courses Found</Typography>;
-    }
+  if (!courses) {
+    return <NotFoundPage text={'There is no courses'} />;
   }
 
   return (

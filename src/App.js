@@ -18,27 +18,20 @@ const App = ({ userEmail }) => {
     <BrowserRouter>
       <Switch>
         <Route path="/signin">{userEmail ? <Redirect to="/courses" /> : <SignIn />}</Route>
-
         <Menu>
           <Switch>
+            {userEmail
+              ? [
+                  <Route path="/course/:courseId/:sectionId" component={CourseSections} />,
+                  <Route path="/courses/:type" component={CourseList} />,
+                  <Route path="/account/settings" component={Settings} />,
+                  <Route path="/account/createcourse" component={CreateCourse} />,
+                ]
+              : null}
             <Route exact path="/" component={userEmail ? CourseList : WelcomePage} />
             <Route path="/courses" component={CourseList} />
-            <Route path="/course/:courseId/:sectionId">
-              {userEmail ? <CourseSections /> : <Redirect to="/courses" />}
-            </Route>
             <Route path="/course/:courseId" component={CourseIntroPage} />
-            <Route path="/courses/started">
-              {userEmail ? <CourseList /> : <Redirect to="/courses" />}
-            </Route>
-            <Route path="/courses/creator">
-              {userEmail ? <CourseList /> : <Redirect to="/courses" />}
-            </Route>
-            <Route path="/account/settings">
-              {userEmail ? <Settings /> : <Redirect to="/courses" />}
-            </Route>
-            <Route path="/account/createcourse">
-              {userEmail ? <CreateCourse /> : <Redirect to="/courses" />}
-            </Route>
+
             <Route component={NotFoundPage} />
           </Switch>
         </Menu>
