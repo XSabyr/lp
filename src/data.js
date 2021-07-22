@@ -4,6 +4,7 @@ const courses = [
     creator: 1,
     title: 'english',
     introduction: 'best course for learning english ',
+    flags: [],
     sections: [
       {
         id: 1,
@@ -33,6 +34,7 @@ const courses = [
     creator: 2,
     title: 'react',
     introduction: 'contains all u need to know about react',
+    flags: ['top'],
     sections: [
       {
         id: 4,
@@ -62,6 +64,7 @@ const courses = [
     creator: 1,
     title: 'C#',
     introduction: 'general information about c# ',
+    flags: ['top', 'editor'],
     sections: [
       {
         id: 7,
@@ -134,7 +137,10 @@ const started = [
   },
 ];
 
-export const GetAllCourses = () => courses;
+export const getCourses = (flags = []) => {
+  return courses.filter((course) => !flags.some((flag) => !course.flags.includes(flag)));
+  // (flag) => !course.flags.includes(flag) ВО ФЛАГАХ КУРСА НЕТ ФЛАГА
+};
 
 export const getCourseById = (id) => {
   return courses.find((course) => course.id === +id);

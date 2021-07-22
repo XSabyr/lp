@@ -64,7 +64,7 @@ const drawerUnauthorisedList = [
   {
     index: 3,
     text: 'Editors choice',
-    to: '/courses/editorschoise',
+    to: '/courses/editors',
   },
 ];
 
@@ -122,7 +122,7 @@ const MenuDrawer = ({ container, mobileOpen, handleDrawerToggle, userEmail, sect
   );
 
   return (
-    <>
+    <nav className={classes.drawer} aria-label="mailbox folders">
       {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
       <Hidden smUp implementation="css">
         <Drawer
@@ -150,7 +150,7 @@ const MenuDrawer = ({ container, mobileOpen, handleDrawerToggle, userEmail, sect
           {drawer}
         </Drawer>
       </Hidden>
-    </>
+    </nav>
   );
 };
 

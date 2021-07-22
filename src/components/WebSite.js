@@ -1,10 +1,15 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import PropTypes from 'prop-types';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
 import MenuAppBar from './MenuAppBar';
 import MenuDrawer from './MenuDrawer';
+
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+import SignIn from './SignIn';
+import Main from './Main';
 
 const drawerWidth = 240;
 
@@ -26,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Menu({ window, children }) {
+function WebSite({ window, userEmail }) {
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -37,25 +42,27 @@ function Menu({ window, children }) {
   const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <MenuAppBar handleDrawerToggle={handleDrawerToggle} />
-      <nav className={classes.drawer} aria-label="mailbox folders">
-        <MenuDrawer
-          container={container}
-          mobileOpen={mobileOpen}
-          handleDrawerToggle={handleDrawerToggle}
-        />
-      </nav>
-      <main className={classes.content}>
-        <div className={classes.toolbar} />
-        {children}
-      </main>
-    </div>
+    <BrowserRouter>
+      <Switch>
+        <Route path="/signin">{userEmail ? <Redirect to="/courses" /> : <SignIn />}</Route>
+        <>
+          <div className={classes.root}>
+            <CssBaseline />
+            <MenuAppBar handleDrawerToggle={handleDrawerToggle} />
+            <MenuDrawer
+              container={container}
+              mobileOpen={mobileOpen}
+              handleDrawerToggle={handleDrawerToggle}
+            />
+            <Main />
+          </div>
+        </>
+      </Switch>
+    </BrowserRouter>
   );
 }
 
-Menu.propTypes = {
+WebSite.propTypes = {
   /**
    * Injected by the documentation to work in an iframe.
    * You won't need it on your project.
@@ -63,4 +70,10 @@ Menu.propTypes = {
   window: PropTypes.func,
 };
 
-export default Menu;
+function mapStateToProps(state) {
+  return {
+    userEmail: state.user.email,
+  };
+}
+
+export default connect(mapStateToProps)(WebSite);

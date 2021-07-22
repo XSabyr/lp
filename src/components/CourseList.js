@@ -1,28 +1,28 @@
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import React from 'react';
 import {
-  GetAllCourses,
+  getCourses,
   GetCoursesByCreator,
   GetCoursesWithSearch,
   GetStartedCoursesByUserId,
 } from '../data';
 import CourseListItem from './CourseListItem';
-import { Typography } from '@material-ui/core';
-// import { useSelector } from 'react-redux';
 import NotFoundPage from './NotFoundPage';
 import { connect } from 'react-redux';
 
 const CourseList = ({ userId }) => {
   let { type, search } = useParams();
-
   let courses;
-
   if (type === 'started') {
     courses = GetStartedCoursesByUserId(userId);
   } else if (type === 'creator') {
     courses = GetCoursesByCreator(userId);
+  } else if (type === 'top') {
+    courses = getCourses(['top']);
+  } else if (type === 'editors') {
+    courses = getCourses(['editor']);
   } else {
-    courses = search ? GetCoursesWithSearch(search) : GetAllCourses();
+    courses = search ? GetCoursesWithSearch(search) : getCourses();
   }
 
   if (!courses) {
@@ -34,7 +34,7 @@ const CourseList = ({ userId }) => {
       <ul style={{ listStyleType: 'none' }}>
         {courses.map((course) => {
           return (
-            <Link key={course.id} to={`course/${course.id}`} style={{ textDecoration: 'none' }}>
+            <Link key={course.id} to={`/course/${course.id}`} style={{ textDecoration: 'none' }}>
               <li style={{ marginBottom: '15px' }}>
                 <CourseListItem course={course} />
               </li>
